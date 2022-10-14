@@ -1,49 +1,35 @@
 package com.Ciclo3.reto_3.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
 
 @Entity
 @Table(name="reservations")
 
 public class Reservations implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idReservation;
     private Date startDate;
     private Date devolutionDate;
     private String status="created";
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "reservations")
+    @ManyToOne
+    @JoinColumn(name = "ortopedic")
     @JsonIgnoreProperties("reservations")
-    private List<Ortopedic> ortopedicList;
-
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "reservation")
-    @JsonIgnoreProperties("reservation")
-    private List<Client> clients;
+    private Ortopedic ortopedic;
 
     @ManyToOne
     @JoinColumn(name = "client")
-    @JsonIgnoreProperties("reservations")
+    @JsonIgnoreProperties({"reservations", "messages"})
     private Client client;
 
-    @ManyToOne
-    @JoinColumn(name = "ortopedic")
-    @JsonIgnoreProperties("reservation")
-    private Ortopedic ortopedic;
-
-    @OneToOne(cascade = {CascadeType.PERSIST}, mappedBy = "reservations")
-    @JsonIgnoreProperties("reservations")
-    private Score scores;
-
-    @OneToOne
-    @JoinColumn(name = "score")
-    @JsonIgnoreProperties("reservation")
+    @OneToOne(mappedBy = "reservations")
     private Score score;
+
 
     public Integer getIdReservation() {
         return idReservation;
@@ -77,23 +63,6 @@ public class Reservations implements Serializable {
         this.status = status;
     }
 
-    public List<Ortopedic> getOrtopedicList() {
-        return ortopedicList;
-    }
-
-    public void setOrtopedicList(List<Ortopedic> ortopedicList) {
-        this.ortopedicList = ortopedicList;
-    }
-
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public Ortopedic getOrtopedic() {
         return ortopedic;
     }
@@ -102,12 +71,12 @@ public class Reservations implements Serializable {
         this.ortopedic = ortopedic;
     }
 
-    public Score getScores() {
-        return scores;
+    public Client getClient() {
+        return client;
     }
 
-    public void setScores(Score scores) {
-        this.scores = scores;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Score getScore() {

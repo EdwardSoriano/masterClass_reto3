@@ -15,13 +15,17 @@ public class OrtopedicRepository {
     public List<Ortopedic> getAll(){
         return (List<Ortopedic>) ortopedicCrudRepository.findAll();
     }
+
     public Optional<Ortopedic> getOrtopedic(int ortopedic_id){
         return ortopedicCrudRepository.findById(ortopedic_id);
     }
+
     public Ortopedic save(Ortopedic ortopedic){
-        return ortopedicCrudRepository.save(ortopedic); //tenia return (Ortopedic) ortopedicCrudRepository.save(ortopedic)
+        return ortopedicCrudRepository.save(ortopedic);
     }
+
     public void delete(Ortopedic ortopedic){
         ortopedicCrudRepository.delete(ortopedic);
     }
+
 }
